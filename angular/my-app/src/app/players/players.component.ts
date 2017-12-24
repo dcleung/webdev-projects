@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from '../player';
-import { PLAYERS } from '../default-players';
+import { PlayerService } from '../player.service';
 
 
 @Component({
@@ -10,23 +10,22 @@ import { PLAYERS } from '../default-players';
 })
 export class PlayersComponent implements OnInit {
 
-  players = PLAYERS
+  players: Player[];
+
+  constructor(private playerService: PlayerService) { }
+
+  getPlayers(): void {
+    this.playerService.getPlayers().subscribe(players => this.players = players)
+  }
 
   selectedPlayer: Player;
 
   onSelect(player: Player): void {
     this.selectedPlayer = player;
   }
-  
-  player: Player = {
-    id: 1,
-    name: 'LeVeon Bell',
-    position: 'RB'
-  }
-
-  constructor() { }
 
   ngOnInit() {
+    this.getPlayers();
   }
 
 }
